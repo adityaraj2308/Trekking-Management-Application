@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title mb-3">
+          <i class="bi bi-person-plus"></i>
+          {% if role == "staff" %} Staff Registration {% else %} Trekker Registration {% endif %}
+        </h3>
+
+        {% if role == "staff" %}
+          <div class="alert alert-info small">Your account will need admin approval before login.</div>
+        {% endif %}
+
+        <form method="POST" novalidate>
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="full_name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Contact No.</label>
+            <input type="text" name="contact" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" minlength="4" required>
+          </div>
+          <button class="btn btn-success w-100">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

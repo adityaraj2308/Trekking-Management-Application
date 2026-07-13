@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Browse Treks{% endblock %}
+{% block content %}
+<h3><i class="bi bi-search"></i> Browse Treks</h3>
+
+<form method="get" class="row g-2 my-3 bg-white p-3 rounded shadow-sm">
+  <div class="col-md-4">
+    <input type="text" name="q" class="form-control" placeholder="Trek name" value="{{ q }}">
+  </div>
+  <div class="col-md-3">
+    <select name="difficulty" class="form-select">
+      <option value="">-- Difficulty --</option>
+      {% for d in ['Easy','Moderate','Hard'] %}
+        <option value="{{ d }}" {% if difficulty==d %}selected{% endif %}>{{ d }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <input type="text" name="location" class="form-control" placeholder="Location" value="{{ location }}">
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-primary w-100">Filter</button>
+  </div>
+</form>
+
+<div class="row g-3">
+{% for t in treks %}
+  <div class="col-md-4">
+    <div class="card p-3 h-100">
+      <div class="d-flex justify-content-between">
+        <h6>{{ t.name }}</h6>
+        <span class="badge badge-{{ t.status|lower }}">{{ t.status }}</span>
+      </div>
+      <small class="text-muted"><i class="bi bi-geo-alt"></i> {{ t.location }}</small>
+      <p class="mb-1 mt-2">
+        <span class="difficulty-{{ t.difficulty }}">{{ t.difficulty }}</span>
+        | {{ t.duration }}d | ₹{{ t.price }}
+      </p>
+      <p class="small text-muted mb-1">{{ t.description[:120] if t.description else '' }}</p>
+      <p class="small">Slots: {{ t.available_slots }}/{{ t.total_slots }}
+        | {{ t.start_date }} → {{ t.end_date }}</p>
+
+      {% if t.status == 'Open' %}
+      <form method="post" action="{{ url_for('user.book_trek', trek_id=t.id) }}">
+        <button class="btn btn-sm btn-primary w-100"
+                {% if t.available_slots <= 0 %}disabled{% endif %}>
+          {% if t.available_slots <= 0 %}Fully Booked{% else %}Book Now{% endif %}
+        </button>
+      </form>
+      {% else %}
+      <button class="btn btn-sm btn-outline-secondary w-100" disabled>Booking not open</button>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <p class="text-muted">No treks match your search.</p>
+{% endfor %}
+</div>
+{% endblock %}

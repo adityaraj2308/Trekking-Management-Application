@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Staff Dashboard{% endblock %}
+{% block content %}
+<h3><i class="bi bi-clipboard-check"></i> My Assigned Treks</h3>
+<p class="text-muted">Hello {{ current_user.full_name or current_user.username }}, these are the treks admin has assigned to you.</p>
+
+{% if not trek_data %}
+  <div class="alert alert-info">You have not been assigned any trek yet.</div>
+{% endif %}
+
+<div class="row g-3 mt-2">
+{% for td in trek_data %}
+  {% set t = td.trek %}
+  <div class="col-md-6">
+    <div class="card p-3">
+      <div class="d-flex justify-content-between">
+        <h5>{{ t.name }}</h5>
+        <span class="badge badge-{{ t.status|lower }}">{{ t.status }}</span>
+      </div>
+      <p class="mb-1"><i class="bi bi-geo-alt"></i> {{ t.location }} |
+         <span class="difficulty-{{ t.difficulty }}">{{ t.difficulty }}</span> |
+         {{ t.duration }} days</p>
+      <p class="mb-1">Slots left: <b>{{ t.available_slots }}</b> / {{ t.total_slots }}</p>
+      <p class="mb-1">Registered users: <b>{{ td.booked_count }}</b></p>
+      <a href="{{ url_for('staff.trek_detail', trek_id=t.id) }}" class="btn btn-sm btn-primary mt-2">
+        Manage Trek
+      </a>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

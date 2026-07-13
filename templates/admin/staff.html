@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Staff{% endblock %}
+{% block content %}
+<h3><i class="bi bi-people"></i> Trek Staff</h3>
+
+<form method="get" class="row g-2 my-3">
+  <div class="col-md-6">
+    <input type="text" name="q" class="form-control" placeholder="Search staff by name/ID" value="{{ q }}">
+  </div>
+  <div class="col-md-2"><button class="btn btn-primary w-100">Search</button></div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover bg-white">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th><th>Name</th><th>Username</th><th>Email</th><th>Contact</th>
+      <th>Status</th><th>Assigned Treks</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in staff %}
+    <tr>
+      <td>{{ s.id }}</td>
+      <td>{{ s.full_name or '-' }}</td>
+      <td>{{ s.username }}</td>
+      <td>{{ s.email }}</td>
+      <td>{{ s.contact or '-' }}</td>
+      <td>
+        {% if s.status == 'pending' %} <span class="badge bg-warning text-dark">Pending</span>
+        {% elif s.status == 'approved' %} <span class="badge bg-success">Approved</span>
+        {% elif s.status == 'blacklisted' %} <span class="badge bg-danger">Blacklisted</span>
+        {% else %} {{ s.status }}
+        {% endif %}
+      </td>
+      <td>{{ s.assigned_treks|length }}</td>
+      <td>
+        {% if s.status == 'pending' %}
+          <form method="post" action="{{ url_for('admin.staff_approve', staff_id=s.id) }}" class="d-inline">
+            <button class="btn btn-sm btn-success">Approve</button>
+          </form>
+        {% endif %}
+        {% if s.status != 'blacklisted' %}
+          <form method="post" action="{{ url_for('admin.staff_blacklist', staff_id=s.id) }}" class="d-inline">
+            <button class="btn btn-sm btn-danger">Blacklist</button>
+          </form>
+        {% else %}
+          <form method="post" action="{{ url_for('admin.staff_unblacklist', staff_id=s.id) }}" class="d-inline">
+            <button class="btn btn-sm btn-outline-success">Re-approve</button>
+          </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="8" class="text-center text-muted">No staff registered yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

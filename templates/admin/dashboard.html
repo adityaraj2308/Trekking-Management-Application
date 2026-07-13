@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Admin Dashboard</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card stats-card p-3">
+      <small class="text-muted">Total Treks</small>
+      <h3>{{ total_treks }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stats-card p-3">
+      <small class="text-muted">Trekkers</small>
+      <h3>{{ total_users }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stats-card p-3">
+      <small class="text-muted">Staff</small>
+      <h3>{{ total_staff }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stats-card p-3">
+      <small class="text-muted">Bookings</small>
+      <h3>{{ total_bookings }}</h3>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-7">
+    <div class="card p-3">
+      <h5>Popular Treks (Bookings)</h5>
+      <canvas id="popular"></canvas>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="card p-3">
+      <h5>Booking Status</h5>
+      <canvas id="statusChart"></canvas>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- charts (extra feature, allowed as it is optional) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const popCtx = document.getElementById('popular');
+  new Chart(popCtx, {
+    type: 'bar',
+    data: {
+      labels: {{ chart_labels | tojson }},
+      datasets: [{
+        label: 'Bookings',
+        data: {{ chart_values | tojson }},
+        backgroundColor: '#2d8a4b'
+      }]
+    },
+    options: { scales: { y: { beginAtZero:true, ticks:{stepSize:1} } } }
+  });
+
+  const stCtx = document.getElementById('statusChart');
+  new Chart(stCtx, {
+    type: 'doughnut',
+    data: {
+      labels: {{ status_labels | tojson }},
+      datasets: [{
+        data: {{ status_values | tojson }},
+        backgroundColor: ['#198754','#dc3545','#6f42c1']
+      }]
+    }
+  });
+</script>
+{% endblock %}

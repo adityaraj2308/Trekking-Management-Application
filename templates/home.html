@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Welcome - TrekMate{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 rounded-3 hero-banner">
+  <div class="container-fluid py-5 text-white">
+    <h1 class="display-4 fw-bold"><i class="bi bi-signpost-split-fill"></i> TrekMate</h1>
+    <p class="lead">A simple trekking management system for admin, staff and trekkers.</p>
+    <hr class="my-4 border-light">
+    <p>Login or register below to get started.</p>
+    <a class="btn btn-warning btn-lg me-2" href="{{ url_for('auth.login') }}">Login</a>
+    <a class="btn btn-outline-light btn-lg me-2" href="{{ url_for('auth.register_user') }}">Register as Trekker</a>
+    <a class="btn btn-outline-light btn-lg" href="{{ url_for('auth.register_staff') }}">Register as Staff</a>
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class="col-md-4">
+    <div class="p-4 border rounded">
+      <h4><i class="bi bi-shield-lock"></i> Admin</h4>
+      <p>Create treks, approve staff and manage the whole system.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="p-4 border rounded">
+      <h4><i class="bi bi-people"></i> Trek Staff</h4>
+      <p>Manage assigned treks, update slots and status.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="p-4 border rounded">
+      <h4><i class="bi bi-person-walking"></i> Trekker</h4>
+      <p>Browse treks, book adventures and track history.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

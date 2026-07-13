@@ -1,0 +1,45 @@
+/* my custom styling on top of bootstrap */
+
+body {
+  background: #f5f7fa;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.trek-nav {
+  background: linear-gradient(90deg, #1e5631, #2d8a4b);
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, #1e5631, #4caf50);
+  border-radius: 12px;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.stats-card {
+  border-left: 5px solid #2d8a4b;
+  transition: transform .15s;
+}
+.stats-card:hover {
+  transform: translateY(-3px);
+}
+
+.footer {
+  border-top: 1px solid #e5e5e5;
+  background: #fff;
+}
+
+.badge-open      { background: #198754; }
+.badge-closed    { background: #6c757d; }
+.badge-pending   { background: #ffc107; color:#333; }
+.badge-approved  { background: #0d6efd; }
+.badge-completed { background: #6f42c1; }
+
+.difficulty-Easy     { color: #198754; font-weight:600; }
+.difficulty-Moderate { color: #fd7e14; font-weight:600; }
+.difficulty-Hard     { color: #dc3545; font-weight:600; }
+
+table td, table th { vertical-align: middle !important; }
